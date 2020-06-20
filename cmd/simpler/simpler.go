@@ -16,7 +16,7 @@ type simpleHandler struct{}
 func (handler simpleHandler) ServeHTTP(response http.ResponseWriter, request *http.Request) {
 	pid := os.Getpid()
 	hostname, _ := os.Hostname()
-	currentTime := time.Now().UnixNano() / int64(time.Millisecond)
+	currentTime := time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
 
 	data := struct {
 		Path      string `json:"path"`
@@ -31,6 +31,8 @@ func (handler simpleHandler) ServeHTTP(response http.ResponseWriter, request *ht
 		hostname,
 		currentTime,
 	}
+
+	response.Header().Set("Content-Type", "application/json")
 	str, _ := json.Marshal(data)
 	fmt.Fprintf(response, "%s", str)
 }
