@@ -12,3 +12,4 @@ FROM alpine:latest
 
 COPY --from=builder /go/bin/simpler /go/bin/simpler
 ENV PATH="/go/bin:${PATH}"
+ENTRYPOINT [ "simpler" ]
